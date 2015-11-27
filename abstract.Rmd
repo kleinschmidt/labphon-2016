@@ -4,8 +4,9 @@ bibliography: /Users/dkleinschmidt/Documents/papers/library-clean.bib
 csl: apa.csl
 output: pdf_document
 geometry: margin=1in
-fig_caption: true
 graphics: yes
+header-includes:
+    - \usepackage{wrapfig}
 ---
 
 ```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
@@ -44,7 +45,8 @@ This can be formalized as a kind of statistical inference, where listeners try t
 
 We use a /b/-/p/ distributional learning paradigm [@Clayards2008], where listeners ($n = `r n_subj`$) hear a bimodal distribution over voice onset time (VOT), with a cluster at a low value implicitly corresponding to /b/ and another at a high value corresponding to /p/.  By varying the location of these clusters, we create accents that are more or less like those produced by a typical American English talker [as measured by, e.g., @Kronrod2012] (Figure 1).
 
-```{r input-vs-prior-stats, fig.width=8, fig.height=2, out.width='\\textwidth', fig.cap="VOT distributions for each accent."}
+\begin{figure}[!h]
+```{r input-vs-prior-stats, fig.width=8, fig.height=2, out.width='\\textwidth'}
 
 ## copied from NIPS paper #######################################
 
@@ -96,10 +98,15 @@ data %>%
   theme(legend.position='none')
 
 ```
+\caption{VOT distributions for each accent.}\label{fig:input-vs-prior-stats}
+\end{figure}
+
+
 
 We measure how well listeners _learn_ these accents by comparing their classification functions to the ideal boundaries implied by the exposure distributions alone (Figure 2).  As predicted, when the VOT clusters were unusually high or low, listeners _actual_ category boundaries reflected a compromise between the typical and exposure talkers.
 
-```{r supunsup-belief-updating-qualitative, fig.height=2, fig.width=8, out.width='\\textwidth', fig.cap="After exposure, listeners’ /b/-/p/ classifications (thin lines) reflected a compromise between the boundary for a typical talker (dashed black) and the experimental talker (dashed colored).  Moreover, more extreme shifts led to less complete adaptation (lower percentage of boundary shift from typical to experimental; not shown for 0ms shift because experimental and typical talkers are too similar to reliably measure percentage)."}
+\begin{figure}[!h]
+```{r supunsup-belief-updating-qualitative, fig.height=2, fig.width=8, out.width='\\textwidth'}
 
 ## generate predicted classification functions assuming Bayes-optimal classifier
 ## + noise
@@ -149,18 +156,6 @@ ggplot(data, aes(x=vot, y=respP, color=bvotCond)) +
   facet_grid(.~bvotCond) +
   geom_line(data=perfect_learning, aes(y=prob_p), group=1, linetype=2, size=1) +
   geom_line(data=no_learning, aes(y=prob_p), group=1, linetype=2, color='black') +
-  ## geom_text(data=data.frame(bvotCond=-10),
-  ##           x = 30, y = 0, label = 'Typical\ntalker',
-  ##           size = 3.5, hjust=0, vjust = 0, color='black',
-  ##           lineheight=1) + 
-  ## geom_text(data=data.frame(bvotCond=-10),
-  ##           x = 12, y = 1, label = 'Expo-\nsure',
-  ##           size = 3.5, hjust=1, vjust=1, color=hcl(15, c=100, l=65),
-  ##           lineheight=1, fontface='bold') + 
-  ## geom_text(data=data.frame(bvotCond=-10),
-  ##           x = 90, y = 0.75, label = 'Actual\nlisteners',
-  ##           size = 3.5, hjust=1, vjust=1, color=hcl(15, c=100, l=65),
-  ##           lineheight=1) + 
   geom_text(data=boundary_summary, aes(x=75, y=0.1, label=shift_text), color='black') + 
   theme(legend.position='none') +
   scale_x_continuous('VOT (ms)') +
@@ -168,15 +163,12 @@ ggplot(data, aes(x=vot, y=respP, color=bvotCond)) +
   scale_color_discrete('/b/ mean\nVOT')
 
 ```
+\caption{After exposure, listeners’ /b/-/p/ classifications (thin colored lines; estimated via logistic GLM) reflected a compromise between the boundary for a typical talker (dashed black) and the experimental talker (dashed colored).  Moreover, more extreme shifts led to less complete adaptation (lower percentage of boundary shift from typical to experimental; not shown for 0ms shift because experimental and typical talkers are too similar to reliably measure percentage).}\label{fig:supunsup-belief-updating-qualitative}
+\end{figure}
 
-```{r boundaries}
 
-
-```
-
-Second, we used a belief-updating model to work backwards from the patterns of adaptation to different accents, inferring what listeners' starting beliefs were, and how confident they were in those beliefs.  The inferred prior expectations matched the range of typical American English talkers' /b/ and /p/ distributions, including the counterintuitive finding that listeners were _more_ uncertain about the /b/ mean VOT than /p/.  Even though the _within_-talker variance of VOT is higher for /p/ than /b/, the _between_-talker variance for /b/ is likely higher because some talkers pre-voice their /b/s with large, negative mean VOTs [@Lisker1964].
-
-```{r inferred-prior, eval=FALSE}
+\begin{wrapfigure}{r}{0.5\textwidth}
+```{r inferred-prior, fig.width=4, fig.height=2, out.width='0.48\\textwidth'}
 
 samples_to_prior_stats <- function(samples, mean_name='mu_0', sd_name='sigma_0') {
   data.frame(category = c('b', 'p'),
@@ -184,18 +176,26 @@ samples_to_prior_stats <- function(samples, mean_name='mu_0', sd_name='sigma_0')
              sd = apply(samples[[sd_name]], 2, mean))
 }
 
+mod2_samples <- readRDS('../nips_2015/data/samples_lapsing.rds')
+
 mod2_prior_lhood <- mod2_samples %>%
   samples_to_prior_stats %>%
   stats_to_lhood(noise_sd = 0)
 
 ggplot(mod2_prior_lhood, aes(x=vot, y=lhood, group=category)) +
-  geom_line(aes(linetype='Inferred prior')) +
-  geom_line(data=prior_lhood, aes(linetype='Kronrod et al. (2012)')) +
+  geom_line(aes(linetype='Inferred\nprior')) +
+  geom_line(data=prior_lhood, aes(linetype='Kronrod et\nal. (2012)')) +
   scale_linetype_discrete('Source') +
   scale_x_continuous('VOT (ms)') +
   scale_y_continuous('Likelihood')
 
 ```
+\caption{Cue distributions with maximum prior probability as inferred from adaptation data, compared with the distributions measured by Kronrod et al. (2012).}
+\label{fig:inferred-prior}
+\end{wrapfigure}
+
+
+Second, we used a belief-updating model to work backwards from the patterns of adaptation to different accents, inferring what listeners' starting beliefs were, and how confident they were in those beliefs.  The inferred prior expectations matched the range of typical American English talkers' /b/ and /p/ distributions, including the counterintuitive finding that listeners were _more_ uncertain about the /b/ mean VOT than /p/.  Even though the _within_-talker variance of VOT is higher for /p/ than /b/, the _between_-talker variance for /b/ is likely higher because some talkers pre-voice their /b/s with large, negative mean VOTs [@Lisker1964].
 
 The ability to measure listeners' prior expectations potentially provides an important and heretofore missing tool in the toolbox of laboratory phonology.  Measuring these beliefs is important for at least two reasons.  First, the task of learning a new talker's accent would be nearly as hard as learning the language for the first time were it not for listeners' prior experience with _other_ talkers.  Thus, understanding the remarkable ability of listeners to robustly comprehend speech from many different talkers requires understanding the expectations they bring to an unfamiliar talker.  Second, and relatedly, this technique can directly link the variability in _production_ of linguistic variables with listeners' subjective expectations about those variables, both conditioned on _social_ variables.  Our proof-of-concept here (implicitly) uses standard American English, but the same procedure can be applied to specific variables like gender, region, class, etc., by providing information to the listener about _who_ the talker is [which listeners do use to guide speech perception, @Hay2010; @Niedzielski1999; @Strand1996].
 
