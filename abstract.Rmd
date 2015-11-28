@@ -39,7 +39,7 @@ theme_set(theme_bw())
 
 ```
 
-One of the longest-standing puzzles in speech perception is how listeners cope with the often extreme differences in how individual talkers use acoustic cues to realize their linguistic intentions.  
+One of the longest-standing puzzles in speech perception is how listeners cope with the often extreme differences in how individual talkers use acoustic cues to realize their linguistic intentions.
 A number of solutions have been proposed, including proposals that listeners quickly _adapt_ to unfamiliar talkers by _learning_ the distributions of acoustic cues that they produce (their "accent").
 
 This can be formalized as a kind of statistical inference, where listeners try to infer which of all possible accents best explains a talker's speech [@Kleinschmidt2015]. 
@@ -50,7 +50,7 @@ We also, in doing so, demonstrate a novel technique for measuring listeners' sub
 Critically, this technique does not require the laborious collection and annotation of large quantities of speech from different talkers.
 
 In a /b/-/p/ distributional learning paradigm [@Clayards2008], listeners ($n = `r n_subj`$; approx. uniformly distributed across conditions) hear a bimodal distribution over voice onset time (VOT), 
-with a cluster at a low value implicitly corresponding to /b/ and another at a high value corresponding to /p/ (Figure 1). CAN YOU LABEL P AND B AT THE BOTTOM OF THE DISTRIBUTIONS IN THE FIGURE? THAT MIGHT BE EASIER TO PROCESS. 
+with a cluster at a low value implicitly corresponding to /b/ and another at a high value corresponding to /p/ (Figure 1). <!-- CAN YOU LABEL P AND B AT THE BOTTOM OF THE DISTRIBUTIONS IN THE FIGURE? THAT MIGHT BE EASIER TO PROCESS.  -->
 By varying the location of these clusters, we create accents that are more or less like those produced by a typical American English talker [as measured by, e.g., @Kronrod2012] (Figure 1).
 
 \begin{figure}[!h]
@@ -98,7 +98,14 @@ data %>%
   geom_text(data=data.frame(bvotCond=-10), x = 40, y = 50,
             label = 'Exposure\nTalker',
             color=hcl(h=15, c=100, l=65), hjust=0, vjust=0.8, size=3,
-            lineheight=1) + 
+            lineheight=1) +
+  geom_text(data=data.frame(bvotCond = 30,
+                            x = c(30, 70),
+                            y = 60,
+                            label = c('/b/', '/p/')),
+            aes(x=x, y=y, label=label),
+            color=hcl(h = 15 + 360/6*5, c=100, l=65),
+            hjust = 0.5, vjust = 0.5, size = 3) + 
   facet_grid(.~bvotCond) +
   scale_x_continuous('VOT (ms)') +
   scale_y_continuous('Frequency') +
@@ -111,8 +118,8 @@ data %>%
 
 
 
-We measure how well listeners _learn_ these accents by comparing their classification functions to the ideal boundaries implied by the exposure distributions alone (Figure 2).  
-As predicted, when the VOT clusters were unusually high or low, listeners _actual_ category boundaries reflected a compromise between the typical (expected) talker and the statistics of the exposure talkers (see caption of Figure 2).
+We measure how well listeners _learn_ these accents by comparing their classification functions to the ideal boundaries implied by the exposure distributions alone (Figure 2).
+As predicted, when the VOT clusters were unusually high or low, listeners' _actual_ category boundaries reflected a compromise between the typical (expected) talker and the statistics of the exposure talkers (see caption of Figure 2).
 
 \begin{figure}[!h]
 ```{r supunsup-belief-updating-qualitative, fig.height=2, fig.width=8, out.width='\\textwidth'}
@@ -172,25 +179,23 @@ ggplot(data, aes(x=vot, y=respP, color=bvotCond)) +
   scale_color_discrete('/b/ mean\nVOT')
 
 ```
-\caption{After exposure, listeners’ /b/-/p/ classifications (thin colored lines; estimated via logistic GLM) reflected a compromise between the boundary for a typical talker (dashed black) and the experimental talker (dashed colored).  
-Moreover, more extreme shifts on average led to less complete adaptation (lower percentage of boundary shift from typical to experimental; not shown for 0ms shift because experimental and typical talkers are too similar to reliably measure percentage).}\label{fig:supunsup-belief-updating-qualitative}
+\caption{After exposure, listeners’ /b/-/p/ classifications (thin colored lines; estimated via logistic GLM) reflected a compromise between the boundary for a typical talker (dashed black) and the experimental talker (dashed colored).  Moreover, more extreme shifts on average led to less complete adaptation (lower percentage of boundary shift from typical to experimental; not shown for 0ms shift because experimental and typical talkers are too similar to reliably measure percentage).}\label{fig:supunsup-belief-updating-qualitative}
 \end{figure}
 
-Second, we used a belief-updating model to work backwards from the patterns of adaptation to different accents, inferring what listeners' starting beliefs were (Figure 3), and how confident they were in those beliefs.  
-The inferred prior expectations matched the range of typical American English talkers' /b/ and /p/ distributions, including the---at first blush---counterintuitive finding that listeners were _more_ uncertain about the /b/ mean VOT than /p/.  
+Second, we used a belief-updating model to work backwards from the patterns of adaptation to different accents, inferring what listeners' starting beliefs were (Figure 3), and how confident they were in those beliefs.
+The inferred prior expectations matched the range of typical American English talkers' /b/ and /p/ distributions, including the---at first blush---counterintuitive finding that listeners were _more_ uncertain about the /b/ mean VOT than /p/.
 Even though the _within_-talker variance of VOT is higher for /p/ than /b/, the _between_-talker variance for /b/ is likely higher because some talkers pre-voice their /b/s with large, negative mean VOTs [@Lisker1964].
-HERE THE PAPER I JUST FORWARDED YOU OUT OF WILSON'S LAB MIGHT HAVE MORE TO SAY THAN LISKER?
 
 The ability to reverse-engineer listeners' prior expectations from perceptual data potentially provides an important and heretofore missing tool in the toolbox of laboratory phonology. 
-Measuring these beliefs is important for at least two reasons.  
-First, the task of learning a new talker's accent would be nearly as hard as learning the language for the first time were it not for listeners' prior experience with _other_ talkers.  
-Thus, understanding the remarkable ability of listeners to robustly comprehend speech from many different talkers requires understanding the expectations they bring to an unfamiliar talker.  
-Second, and relatedly, this technique can directly link the variability in _production_ of linguistic variables with listeners' subjective expectations about those variables, both conditioned on _social_ variables.  
+Measuring these beliefs is important for at least two reasons.
+First, the task of learning a new talker's accent would be nearly as hard as learning the language for the first time were it not for listeners' prior experience with _other_ talkers.
+Thus, understanding the remarkable ability of listeners to robustly comprehend speech from many different talkers requires understanding the expectations they bring to an unfamiliar talker.
+Second, and relatedly, this technique can directly link the variability in _production_ of linguistic variables with listeners' subjective expectations about those variables, both conditioned on _social_ variables.
 Our proof-of-concept here (implicitly) uses standard American English, but the same procedure can be applied to specific variables like gender, region, class, etc., by providing information to the listener about _who_ the talker is [which listeners do use to guide speech perception, @Hay2010; @Niedzielski1999; @Strand1996]. 
 We discuss the opportunities this offers for future research on speech perception and production.
 
 
-# References
+## References
 
 
 \begin{wrapfigure}{r}{0.5\textwidth}
