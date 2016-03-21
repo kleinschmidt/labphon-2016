@@ -1,6 +1,6 @@
-all: what_do_you_expect_from_an_unfamiliar_talker.pdf
+all: kleinschmidt_what_do_you_expect_from_an_unfamiliar_talker.pdf
 
-what_do_you_expect_from_an_unfamiliar_talker.pdf: abstract.pdf
+kleinschmidt_what_do_you_expect_from_an_unfamiliar_talker.pdf: abstract.pdf
 	cp $^ $@
 
 %.pdf: %.Rmd template.tex
