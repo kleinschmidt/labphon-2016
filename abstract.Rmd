@@ -1,8 +1,12 @@
 ---
 title: What do you expect from an unfamiliar talker?
+author: Dave F. Kleinschmidt (\href{mailto:dave.f.kleinschmidt@gmail.com}{dave.f.kleinschmidt@gmail.com}) and T. Florian Jaeger, University of Rochester
 bibliography: /Users/dkleinschmidt/Documents/papers/library-clean.bib
 csl: apa.csl
-output: pdf_document
+output:
+  pdf_document:
+    template: template.tex
+    keep_tex: true
 geometry: margin=1in
 graphics: yes
 header-includes:
@@ -31,7 +35,8 @@ knitr::opts_chunk$set(echo=FALSE,
                       results='hide',
                       message=FALSE,
                       warning=FALSE,
-                      error=FALSE)
+                      error=FALSE,
+                      cache=TRUE)
 
 library(ggplot2)
 theme_set(theme_bw())
@@ -168,7 +173,8 @@ boundary_summary <- boundaries %>%
   filter(bvotCond != 0)                 # basically no shift possible
 
 ggplot(data, aes(x=vot, y=respP, color=bvotCond)) +
-  geom_line(aes(group=subject), stat='smooth', method='glm', family='binomial', alpha=0.2) +
+  geom_line(aes(group=subject), stat='smooth', method='glm',
+            method.args=list(family='binomial'), alpha=0.2) +
   facet_grid(.~bvotCond) +
   geom_line(data=perfect_learning, aes(y=prob_p), group=1, linetype=2, size=1) +
   geom_line(data=no_learning, aes(y=prob_p), group=1, linetype=2, color='black') +
@@ -224,3 +230,5 @@ ggplot(mod2_prior_lhood, aes(x=vot, y=lhood, group=category)) +
 \caption{Cue distributions with maximum prior probability as inferred from adaptation data, compared with the distributions measured by Kronrod et al. (2012).}
 \label{fig:inferred-prior}
 \end{wrapfigure}
+
+\small
