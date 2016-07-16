@@ -30,6 +30,13 @@ output:
     * HLP Lab
 * Funding
     * NIH NICHD R01 to TFJ and NRSA to DFK
+    
+## Goals
+
+> * Speech perception as __inference under uncertainty__ at __multiple scales__
+> * Framework to link __production data__ with __perception__
+> * __Constraints__ on rapid adaptation via distributional learning
+> * Probe listeners' __subjective beliefs__ about an unfamiliar talker
 
 
 ```{r preamble, message = FALSE, warning = FALSE, error = FALSE, results='hide', echo=FALSE}
@@ -331,6 +338,8 @@ particles_to_id_df <- function(particles, x) {
                     particle_id = id_particle(x = x_id, p = .$p[[1]])) })
 }
 
+line_weight <- 2
+
 plot_particles_lhood <- function(particles, x_to_plot_at, true_particle = NA) {
 
   particle_pdfs <- particles %>%
@@ -344,8 +353,8 @@ plot_particles_lhood <- function(particles, x_to_plot_at, true_particle = NA) {
   particle_pdfs %>%
     ggplot() +
     geom_line(aes(x=x_pdf, y=particle_lhood, group=p_idx,
-                  color='Hypotheses'), alpha=0.05) +
-    geom_line(data=particle_pdfs_marginal,
+                  color='Hypotheses'), alpha=0.05, size=line_weight) +
+    geom_line(data=particle_pdfs_marginal, size=line_weight,
               aes(x=x_pdf, y=marginal_lhood, color='Marginal')) +
     guides(alpha = FALSE) +
     theme_particles() +
@@ -360,7 +369,8 @@ plot_particles_lhood <- function(particles, x_to_plot_at, true_particle = NA) {
                              lhood = sapply(x_pdf, d_particle, p=true_particle))
     lhood_range <- range(true_lhood$lhood)
     p <- p + 
-      geom_line(data = true_lhood, aes(x=x_pdf, y=lhood, color='Truth')) +
+      geom_line(data = true_lhood, size=line_weight,
+                aes(x=x_pdf, y=lhood, color='Truth')) +
       coord_cartesian(ylim = lhood_range + diff(lhood_range)*c(-0.02, 0.2))
   }
 
@@ -377,9 +387,10 @@ plot_particles_id <- function(particles, x_to_plot_at, true_particle = NA) {
   
   particle_ids %>%
     ggplot(aes(x=x_id, y=particle_id)) +
-    geom_line(alpha=0.05,
+    geom_line(alpha=0.05, size=line_weight,
               aes(group=p_idx, color='Hypotheses')) +
     geom_line(data = particle_ids_marginal,
+              size=line_weight,
               aes(y = marginal_id, color='Marginal')) +
     labs(y = 'Probability of /p/') +
     theme_particles() +
@@ -392,7 +403,7 @@ plot_particles_id <- function(particles, x_to_plot_at, true_particle = NA) {
     true_id <- data_frame(x_id = x_to_plot_at,
                           id = id_particle(x=x_id, p=true_particle))
     p <- p +
-      geom_line(data = true_id, aes(y = id, color='Truth'))
+      geom_line(data = true_id, aes(y = id, color='Truth'), size=line_weight)
   }
 
   p
@@ -426,10 +437,12 @@ plot_particle_updating <- function(x, particles,
   particle_pdfs %>%
     ggplot() +
     geom_line(aes(x=x_pdf, y=particle_lhood, alpha=weight, color='Hypotheses',
-                  group=p_idx, frame=x_idx)) +
+                  group=p_idx, frame=x_idx),
+              size=line_weight) +
     geom_line(data=particle_pdfs_marginal,
               aes(x=x_pdf, y=marginal_lhood, group=x_idx, frame=x_idx,
-                  color='Marginal')) +
+                  color='Marginal'),
+              size=line_weight) +
     geom_point(data=xs_before_xidx, aes(x=x, y=0, alpha=1, frame=x_idx), shape='|') + 
     scale_color_manual(breaks = c('Hypotheses', 'Marginal', 'Truth'),
                        values = c('black', red, blue),
@@ -446,7 +459,8 @@ plot_particle_updating <- function(x, particles,
                              lhood = sapply(x_pdf, d_particle, p=true_particle))
     lhood_range <- range(true_lhood$lhood)
     p <- p + 
-      geom_line(data = true_lhood, aes(x=x_pdf, y=lhood, color='Truth')) +
+      geom_line(data = true_lhood, aes(x=x_pdf, y=lhood, color='Truth'),
+                size=line_weight) +
       coord_cartesian(ylim = lhood_range + diff(lhood_range)*c(-0.02, 0.2))
   }
 
@@ -479,9 +493,11 @@ plot_particle_updating_id <- function(x, particles,
   
   particle_ids %>%
     ggplot(aes(x=x_id, y=particle_id)) +
-    geom_line(aes(group=p_idx, color='Hypotheses', frame=x_idx, alpha=weight)) +
+    geom_line(aes(group=p_idx, color='Hypotheses', frame=x_idx, alpha=weight),
+              size=line_weight) +
     geom_line(data = particle_ids_marginal,
-              aes(y = marginal_id, color='Marginal', group=x_idx, frame=x_idx)) +
+              aes(y = marginal_id, color='Marginal', group=x_idx, frame=x_idx),
+              size=line_weight) +
     ## geom_point(data=xs_before_xidx, aes(x=x, y=0, alpha=1, frame=x_idx), shape='|') + 
     labs(y = 'Probability of /p/') +
     ## scale_alpha_continuous(range=c(0.00,1)) +
@@ -497,7 +513,7 @@ plot_particle_updating_id <- function(x, particles,
     true_id <- data_frame(x_id = x_to_plot_at,
                           id = id_particle(x=x_id, p=true_particle))
     p <- p +
-      geom_line(data = true_id, aes(y = id, color='Truth'))
+      geom_line(data = true_id, aes(y = id, color='Truth'), size=line_weight)
   }
 
   p
@@ -534,11 +550,13 @@ true_particle <- list(mu = c(0, 60),
 ```{r okay_samples, fig.width=4, fig.height=3, out.width="49%", dependson='particle-setup'}
 
 ## Samples from an intermediate prior + classification fun samples
-okay_particles <- r_particle_prior(particle_population,
-                                   mu0 = c(0, 60),
-                                   mu_sigma = 10,
-                                   sigma0 = c(15, 25),
-                                   sigma_sigma = c(3, 5))
+## okay_particles <- r_particle_prior(particle_population,
+##                                    mu0 = c(0, 60),
+##                                    mu_sigma = 10,
+##                                    sigma0 = c(15, 25),
+##                                    sigma_sigma = c(3, 5))
+
+okay_particles <- readRDS('../svalp_2016/okay_particles.rds')
 
 okay_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at## , 
@@ -590,7 +608,8 @@ An __ideal adpater__ rapidly adapts to an unfamiliar talker via __distributional
 ```{r okay_updating, fig.width=4, fig.height=3, out.width="49%", fig.show='animate'}
 
 ## belief updating animation
-x <- sample_from_particle(30, true_particle)
+## x <- sample_from_particle(30, true_particle)
+x <- readRDS('../svalp_2016/x.rds')
 t_to_plot_at <- 1:30
 
 okay_updating <- okay_particles %>%
@@ -633,11 +652,14 @@ Distributional learning needs to __start__ somewhere
 ## Scylla and Charybdis
 
 ```{r flat_particles, fig.width=4, fig.height=3, out.width="49%"}
-flat_particles <- r_particle_prior(particle_population,
-                                   mu0 = c(0, 60),
-                                   mu_sigma = 30,
-                                   sigma0 = c(20, 20),
-                                   sigma_sigma = c(5, 5))
+## flat_particles <- r_particle_prior(particle_population,
+##                                    mu0 = c(0, 60),
+##                                    mu_sigma = 30,
+##                                    sigma0 = c(20, 20),
+##                                    sigma_sigma = c(5, 5))
+
+flat_particles <- readRDS('../svalp_2016/flat_particles.rds')
+
 flat_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at, 
                        true_particle = true_particle
@@ -648,11 +670,14 @@ flat_particles %>%
 
 ```
 ```{r mis_particles, fig.width=4, fig.height=3, out.width="49%"}
-mis_particles <- r_particle_prior(particle_population,
-                                  mu0 = c(15, 70),
-                                  mu_sigma = 5,
-                                  sigma0 = c(10, 22),
-                                  sigma_sigma = c(5, 5))
+## mis_particles <- r_particle_prior(particle_population,
+##                                   mu0 = c(15, 70),
+##                                   mu_sigma = 5,
+##                                   sigma0 = c(10, 22),
+##                                   sigma_sigma = c(5, 5))
+
+mis_particles <- readRDS('../svalp_2016/mis_particles.rds')
+
 mis_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at, 
                        true_particle = true_particle
@@ -742,7 +767,7 @@ gg_animate(mis_updating_id)
 ## Ideal adapter predicts:
 
 > * Listeners' expectations about an unfamiliar talkers should be __as specific as possible__ while still being __right on average__.
-> * Adaptation is constrained by __actual variability__ across talkers (as experienced by each listener).
+> * Adaptation is guided by __actual variability__ across talkers (as experienced by each listener).
 > * Accents that fall outside the range of normal variability should result in less adaptation.
 
 <div class="notes">
