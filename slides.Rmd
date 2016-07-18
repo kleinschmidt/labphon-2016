@@ -1279,7 +1279,7 @@ ggplot(mod_class_funs, aes(x=vot, y=prob_p, color=bvotCond)) +
 
 ## Inferred prior beliefs
 
-```{r inferred-prior-vs-kronrod, fig.width=10, fig.height=3.5, out.width='100%'}
+```{r inferred-prior-vs-kronrod, fig.width=10, fig.height=4, out.width='100%'}
 
 samples_to_prior_stats <- function(samples, mean_name='mu_0', sd_name='sigma_0') {
   data.frame(category = c('b', 'p'),
@@ -1301,17 +1301,27 @@ supunsup::prior_stats %>%
   mutate(lhood = `TRUE` * 0.37 + `FALSE` * 0.63) ->
   goldrick_lhood
 
-all_priors <- prior_lhood %>%
-  mutate(source = "Kronrod et al. (2012)") %>%
+buckeye_prior_lhood <-
+  votcorpora::vot %>%
+  filter(place == 'lab') %>%
+  group_by(source, phoneme, voicing, prevoiced, subject) %>%
+  summarise_each(funs(mean, sd), vot) %>%
+  summarise_each(funs(mean), mean, sd) %>%
+  filter(source == 'buckeye') %>%
+  rename(category = phoneme) %>%
+  stats_to_lhood(noise_sd=0)
+
+all_priors <- buckeye_prior_lhood %>%
+  mutate(source = "Buckeye") %>%
   bind_rows(mod_prior_lhood) %>%
   bind_rows(goldrick_lhood) %>%
   mutate(source = factor(source,
                          levels = c("Inferred prior",
-                                    "Kronrod et al. (2012)",
+                                    "Buckeye",
                                     "Goldrick et al. (2013)")))
 
 prior_p <- all_priors %>%
-  filter(source == 'Kronrod et al. (2012)') %>%
+  filter(source == 'Buckeye') %>%
   ggplot(aes(x=vot, y=lhood, group=paste(category, source), color=source,
              linetype = category)) +
   ## geom_line(aes(linetype='Inferred prior')) +
@@ -1332,9 +1342,11 @@ print(prior_p)
 
 ```
 
+<span class="cite">[Wedel, _in prep_]</span>
+
 ## Inferred prior beliefs
 
-```{r inferred-prior-vs-goldrick-2, fig.width=10, fig.height=3.5, out.width='100%'}
+```{r inferred-prior-vs-goldrick-2, fig.width=10, fig.height=4, out.width='100%'}
 
 (
   prior_p <- prior_p +
@@ -1345,15 +1357,19 @@ print(prior_p)
 
 ```
 
+<span class="cite">[Wedel, _in prep_]</span>
+
 ## Inferred prior beliefs
 
-```{r inferred-prior-vs-goldrick-3, fig.width=10, fig.height=3.5, out.width='100%'}
+```{r inferred-prior-vs-goldrick-3, fig.width=10, fig.height=4, out.width='100%'}
 
 prior_p +
   geom_line(size = 2, alpha=0.5,
             data = all_priors %>% filter(source == 'Goldrick et al. (2013)'))
 
 ```
+
+<span class="cite">[Wedel, _in prep_; Goldrick, Vaughn, & Murphy, 2013]</span>
 
 ## Questions
 
