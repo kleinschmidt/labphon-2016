@@ -24,10 +24,10 @@ output:
 
 ## Thanks
 
-* People:
-    * Florian Jaeger
-    * Andrew Watts (MTurk wizardry)
-    * HLP Lab
+* Florian Jaeger
+* Meghan Clayards (stimuli)
+* Andrew Watts (MTurk wizardry)
+* HLP Lab
 * Funding
     * NIH NICHD R01 to TFJ and NRSA to DFK
     
