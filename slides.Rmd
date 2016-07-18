@@ -857,6 +857,10 @@ one_sub %>%
 
 ## Distributional learning
 
+<div class="notes">
+* Design is based on clayards 2008
+</div>
+
 <span class="fragment">
 ```{r dist-learning-schematic, fig.width=3, fig.height=2.5, out.width="32%", dependson='one-sub'}
 
