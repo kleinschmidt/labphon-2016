@@ -31,7 +31,7 @@ output:
 * Funding
     * NIH NICHD R01 to TFJ and NRSA to DFK
     
-## Goals
+## Goals (spoiler alert)
 
 > * Speech perception as __inference under uncertainty__ at __multiple scales__
 > * Framework to link __production data__ with __perception__
@@ -766,8 +766,9 @@ gg_animate(mis_updating_id)
 
 ## Ideal adapter predicts:
 
-> * Listeners' expectations about an unfamiliar talkers should be __as specific as possible__ while still being __right on average__.
-> * Adaptation is guided by __actual variability__ across talkers (as experienced by each listener).
+<!-- > * Listeners' expectations about an unfamiliar talkers should be __as specific as possible__ while still being __right on average__. -->
+> * An ideal adapter __won't always adapt__
+> * Adaptation is __constrained__, guided by __actual variability__ across talkers (as experienced by each listener).
 > * Accents that fall outside the range of normal variability should result in less adaptation.
 
 <div class="notes">
