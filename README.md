@@ -19,7 +19,7 @@ install_github('kleinschmidt/beliefupdatr')
 There are other dependencies that you might or might not need to install, see the RMarkdown source. Then to compile the slides:
 
 ```bash
-make slides.html
+$ make slides.html
 ```
 
 Or in R:
