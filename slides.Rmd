@@ -10,6 +10,7 @@ output:
   revealjs::revealjs_presentation:
     template: slides_template.html
     self_contained: false
+    mathjax: "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
     keep_md: true
     transition: none
     background_transition: none
