@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Dave F. Kleinschmidt and T. Florian Jaeger" />
+  <title>What do you expect from an unfamiliar talker?</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/reveal.js-3.2.0/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="slides_files/reveal.js-3.2.0/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="slides.css"/>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'slides_files/reveal.js-3.2.0/css/print/pdf.css' : 'slides_files/reveal.js-3.2.0/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+    <!--[if lt IE 9]>
+    <script src="slides_files/reveal.js-3.2.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section class="title">
+    <h1 class="title">What do you expect from an unfamiliar talker?</h1>
+    <h2 class="author">Dave F. Kleinschmidt and T. Florian Jaeger</h2>
+    <h3 class="affiliation">University of Rochester</h3>
+    <h4 class="links">
+      <a href="https://twitter.com/kleinschmidt/">@kleinschmidt</a> / 
+<a href="https://davekleinschmidt.com/">davekleinschmidt.com</a> / 
+<a href="https://github.com/kleinschmidt">github.com/kleinschmidt</a>
+    </h4>
+</section>
+
+<section id="thanks" class="slide level2">
+<h1>Thanks</h1>
+<ul>
+<li>People:
+<ul>
+<li>Florian Jaeger</li>
+<li>Andrew Watts (MTurk wizardry)</li>
+<li>HLP Lab</li>
+</ul></li>
+<li>Funding
+<ul>
+<li>NIH NICHD R01 to TFJ and NRSA to DFK</li>
+</ul></li>
+</ul>
+</section>
+<section id="goals-spoiler-alert" class="slide level2">
+<h1>Goals (spoiler alert)</h1>
+<ul>
+<li class="fragment">Speech perception as <strong>inference under uncertainty</strong> at <strong>multiple scales</strong></li>
+<li class="fragment">Framework to link <strong>production data</strong> with <strong>perception</strong></li>
+<li class="fragment"><strong>Constraints</strong> on rapid adaptation via distributional learning</li>
+<li class="fragment">Probe listeners’ <strong>subjective beliefs</strong> about an unfamiliar talker</li>
+</ul>
+</section>
+<section><section id="variation-is-a-problem-for-speech-perception" class="titleslide slide level1"><h1>Variation <br /><span class="fragment">is a <strong>problem</strong> for speech perception</span></h1></section><section class="slide level2">
+
+<div class="sidebyside">
+<p><img src="imgs/newman_one_dist.png" width=40%/></p>
+<p><img src="slides_files/figure-revealjs/newman-classification-curves-one-1.png" width="40%" /></p>
+</div>
+<p><span class="cite">[Newman, Clouse, &amp; Burnham, 2001]</span></p>
+<aside class="notes">
+<ul>
+<li>commonly recognized! variation <strong>within</strong> a talker.</li>
+<li>caetgories are <strong>distributions</strong> of acoustic cues (or signals)</li>
+</ul>
+</aside>
+</section><section class="slide level2">
+
+<div class="sidebyside">
+<p><img src="imgs/newman_dists.png" width=40%/></p>
+<p><img src="slides_files/figure-revealjs/newman-classification-curves-1.png" width="40%" /></p>
+</div>
+<p><span class="cite">[Newman, Clouse, &amp; Burnham, 2001]</span></p>
+<aside class="notes">
+<ul>
+<li>The problem is this: talkers differ in the distributions of acoustic cues they produce for each underlying linguistic category.</li>
+<li>These differences can lead to comprehension problems if you try to apply the classification strategy that worked for one talker to another talker</li>
+</ul>
+</aside>
+</section><section id="an-unfamiliar-talker-appears" class="slide level2">
+<h1>An unfamiliar talker appears!</h1>
+<p><span class="fragment"> <img src="slides_files/figure-revealjs/okay_samples-1.png" width="49%" /> </span> <span class="fragment"> <img src="slides_files/figure-revealjs/okay_samples_id-1.png" width="49%" /> </span></p>
+<aside class="notes">
+<ul>
+<li>Talker variability means that when you first meet an unfamiliar talker, you don’t know what their cue distributions look like.</li>
+<li>This leads directly to uncertainty about how to classify their speech</li>
+</ul>
+</aside>
+<!-- ## Rapid adaptation -->
+</section><section class="slide level2">
+
+<aside class="notes">
+<ul>
+<li>Ideal adapter: computational analysis of the <strong>problem</strong> of speech perception</li>
+<li>Takes talker variability seriously! It’s a basic fact of speech.</li>
+</ul>
+</aside>
+<p>Listeners have to simultaneously infer <strong>what</strong> the talker is saying and <strong>how</strong> they say things</p>
+</section><section class="slide level2">
+
+<aside class="notes">
+<ul>
+<li>In <strong>ideal adapter</strong> framework, we can think of it as a <strong>distributional learning</strong> process: infer talker’s distributions by updating beliefs, based on observations</li>
+</ul>
+</aside>
+<p>An <strong>ideal adpater</strong> rapidly adapts to an unfamiliar talker via <strong>distributional learning</strong></p>
+<p><img src="slides_files/figure-revealjs/okay_updating-.gif" alt="okay_updating"  width="49%" /> <img src="slides_files/figure-revealjs/okay_updating_id-.gif" alt="okay_updating_id"  width="49%" /></p>
+<p><span class="cite">[Kleinschmidt &amp; Jaeger, 2015]</span></p>
+</section><section class="slide level2">
+
+<p>Distributional learning needs to <strong>start</strong> somewhere</p>
+<p>(<strong>prior beliefs</strong> in Bayesian jargon)</p>
+<aside class="notes">
+<ul>
+<li>Highlights a commonly overlooked aspect: where does belief updating <strong>start</strong>?</li>
+</ul>
+</aside>
+</section><section id="scylla-and-charybdis" class="slide level2">
+<h1>Scylla and Charybdis</h1>
+<p><img src="slides_files/figure-revealjs/flat_particles-1.png" width="49%" /> <img src="slides_files/figure-revealjs/mis_particles-1.png" width="49%" /></p>
+<aside class="notes">
+<ul>
+<li>There’s a tradeoff between being <strong>flexible</strong> enough to handle variation, but not so <strong>flexible</strong> that you basically end up re-learning the language</li>
+</ul>
+</aside>
+</section><section id="too-much-uncertainty" class="slide level2">
+<h1>Too much uncertainty</h1>
+<img src="slides_files/figure-revealjs/flat_updating-.gif" alt="flat_updating"  width="49%" /> <img src="slides_files/figure-revealjs/flat_updating_id-.gif" alt="flat_updating_id"  width="49%" />
+<aside class="notes">
+<ul>
+<li>If you start off considering <strong>all possible</strong> distributions, it’s going to take a lot more evidence to converge on accurate beliefs</li>
+</ul>
+</aside>
+</section><section id="overconfident-and-wrong" class="slide level2">
+<h1>Overconfident and wrong</h1>
+<p><img src="slides_files/figure-revealjs/mis_updating-.gif" alt="mis_updating"  width="49%" /> <img src="slides_files/figure-revealjs/mis_updating_id-.gif" alt="mis_updating_id"  width="49%" /></p>
+<aside class="notes">
+<ul>
+<li>On the other hand, if you’re too confident and you end up being wrong, it <strong>also</strong> takes a ton of evidence to overcome your prior beliefs</li>
+<li>The thing you need to do, more or less, is match your prior expectations to your prior experience with <strong>distribution of talkers in the world</strong></li>
+<li>(( applies both at the level of the whole language/all talkers, and for more specific groups when those are informative ))</li>
+</ul>
+</aside>
+</section><section id="ideal-adapter-predicts" class="slide level2">
+<h1>Ideal adapter predicts:</h1>
+<!-- > * Listeners' expectations about an unfamiliar talkers should be __as specific as possible__ while still being __right on average__. -->
+<ul>
+<li class="fragment">An ideal adapter <strong>won’t always adapt</strong></li>
+<li class="fragment">Adaptation is <strong>constrained</strong>, guided by <strong>actual variability</strong> across talkers (as experienced by each listener).</li>
+<li class="fragment">Accents that fall outside the range of normal variability should result in less adaptation.</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>At the highest level: part of what makes an ideal adapter “ideal” is that sometimes it <strong>won’t</strong> rapidly adapt.</li>
+<li>Prediction: rapid adaptation is constrained by variability in accents across talkers</li>
+<li>Current study: test this prediction at the <strong>language level</strong> for a contrast where there’s <strong>little variability across talkers</strong> and we’d predict strong constraints</li>
+<li>Proof of concept: can we recover listeners’ shared prior beliefs from how well they adapt?</li>
+</ul>
+</aside>
+</section><section id="questions" class="slide level2">
+<h1>Questions</h1>
+<ol type="1">
+<li class="fragment">Is rapid adaptation to an unfamiliar talker <strong>constrained</strong>?</li>
+<li class="fragment">Are constraints consistent with belief updating, starting from shared <strong>prior beliefs</strong>?</li>
+<li class="fragment">Are these inferred prior beliefs ‘rational’ in that they reflect <strong>cross-talker variation</strong>?</li>
+</ol>
+</section></section>
+<section><section id="experiment" class="titleslide slide level1"><h1>Experiment</h1></section><section id="section" class="slide level2" data-background-video="demo_trials.mov">
+<h1></h1>
+<!--SO first I want to show you what the paradigm looks like. hear a word, click on matching picture. all the words are b/p minimal pairs, so voicing is the only thing to distinguish them. -->
+</section><section class="slide level2">
+
+<!-- unbeknownst to the listener, we're sampling a VOT randomly on every trial, from a bimodal distribution.  -->
+<p>VOT drawn from a <strong>bimodal distribution</strong></p>
+<p><img src="slides_files/figure-revealjs/exposure-build-up-.gif" alt="exposure-build-up" height="60%" width="624" /></p>
+</section><section id="distributional-learning" class="slide level2">
+<h1>Distributional learning</h1>
+<p><span class="fragment"> <img src="slides_files/figure-revealjs/dist-learning-schematic-1.png" width="32%" /> </span> <span class="fragment"> <img src="slides_files/figure-revealjs/unnamed-chunk-1-1.png" width="32%" /> </span> <span class="fragment"> <img src="slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="32%" /> </span></p>
+</section><section id="design" class="slide level2">
+<h1>Design</h1>
+<p><img src="slides_files/figure-revealjs/distributions-1.png" width="100%" /></p>
+<ul>
+<li>Five “accents” with different VOT distributions</li>
+<li><span class="math inline">\(n=138\)</span> subjects on Mechanical Turk</li>
+<li>222 trials (about 20 minutes)</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Differ only in how shifted they are:</li>
+<li>More or less similar to what a typical talker of american english produces</li>
+<li>refer to them by the mean of /b/</li>
+</ul>
+</aside>
+</section><section id="prediction-no-learning" class="slide level2">
+<h1>Prediction: no learning</h1>
+<p><img src="slides_files/figure-revealjs/predict-no-learning-1.png" width="100%" /></p>
+<p>
+<img src="slides_files/figure-revealjs/distributions-1.png" title="" alt="" width="100%" />
+</p>
+<aside class="notes">
+<p>If listeners aren’t learning anything at all, then their classification functions should be the <strong>same</strong> regardless of condition. The best bet is that they’ll look something like one optimized for a typical talker</p>
+</aside>
+</section><section id="prediction-full-learning" class="slide level2">
+<h1>Prediction: full learning</h1>
+<p><img src="slides_files/figure-revealjs/predict-full-learning-1.png" width="100%" /></p>
+<p><img src="slides_files/figure-revealjs/distributions-1.png" title="" alt="" width="100%" /></p>
+<aside class="notes">
+<p>On the other hand, if listeners are unconstrained in their adaptation, we predict they’ll pick up on exactly the right category boundary for each of the accents we throw at them, which looks something like this</p>
+<p>So what do people actually do??</p>
+</aside>
+</section><section id="results-classification" class="slide level2">
+<h1>Results: classification</h1>
+<p><img src="slides_files/figure-revealjs/class-fcns-1.png" width="100%" /></p>
+<p><img src="slides_files/figure-revealjs/distributions-1.png" title="" alt="" width="100%" /></p>
+<aside class="notes">
+
+</aside>
+</section><section id="results-category-boundaries" class="slide level2">
+<h1>Results: category boundaries</h1>
+<p><img src="slides_files/figure-revealjs/boundary-violin-plots-1.png" width="624" /></p>
+<aside class="notes">
+<p>Things to notice:</p>
+<ul>
+<li><strong>learning</strong>: category boundaries are different for different input distributionss</li>
+<li><strong>constraints</strong>: listeners undershoot category boundaries for more extreme accents</li>
+</ul>
+</aside>
+</section><section id="questions-1" class="slide level2">
+<h1>Questions</h1>
+<ol type="1">
+<li><span class="yes">Is rapid adaptation to an unfamiliar talker <strong>constrained</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Less adaptation to extreme accents</li>
+</ul></li>
+<li>Are constraints consistent with belief updating, starting from shared <strong>prior beliefs</strong>?</li>
+<li>Are these inferred prior beliefs ‘rational’ in that they reflect <strong>cross-talker variation</strong>?</li>
+</ol>
+</section></section>
+<section><section id="modeling" class="titleslide slide level1"><h1>Modeling</h1></section><section id="belief-updating" class="slide level2">
+<h1>Belief updating</h1>
+<p>Previously: given <strong>exposure distributions</strong> and <strong>prior beliefs</strong>, predict <strong>adaptation</strong> (change in classification)</p>
+<p><span class="fragment"> Now: given <strong>adaptation</strong> (change in classification) to different <strong>exposure distributions</strong>, infer <strong>prior beliefs</strong>. </span></p>
+<p><span class="cite">[Kleinschmidt &amp; Jaeger, 2015]</span></p>
+<aside class="notes">
+<ul>
+<li>Advantage of a Bayesian framework!</li>
+<li>We can take this model and turn it around.</li>
+</ul>
+</aside>
+</section><section id="questions-2" class="slide level2">
+<h1>Questions</h1>
+<ol type="1">
+<li><span class="yes">Is rapid adaptation to an unfamiliar talker <strong>constrained</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Less adaptation to extreme accents</li>
+</ul></li>
+<li><span class="fragment highlight-red">Are constraints consistent with belief updating, starting from shared <strong>prior beliefs</strong>?</span></li>
+<li>Are these inferred prior beliefs ‘rational’ in that they reflect <strong>cross-talker variation</strong>?</li>
+</ol>
+</section><section id="model-vs.data-classification" class="slide level2">
+<h1>Model vs. data: classification</h1>
+<p><img src="slides_files/figure-revealjs/distributions-1.png" title="" alt="" width="100%" /></p>
+<img src="slides_files/figure-revealjs/model-vs-class-data-1.png" width="100%" />
+<aside class="notes">
+<ul>
+<li>Lines are model fits</li>
+<li>confidence intervals are 95% bootstrapped CIs on subject means.</li>
+</ul>
+</aside>
+</section><section id="model-vs.data-classification-1" class="slide level2">
+<h1>Model vs. data: classification</h1>
+<p><img src="slides_files/figure-revealjs/distributions-1.png" title="" alt="" width="100%" /></p>
+<p><img src="slides_files/figure-revealjs/model-vs-class-data-full-1.png" width="100%" /></p>
+</section><section id="questions-3" class="slide level2">
+<h1>Questions</h1>
+<ol type="1">
+<li><span class="yes">Is rapid adaptation to an unfamiliar talker <strong>constrained</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Less adaptation to extreme accents</li>
+</ul></li>
+<li><span class="yes">Are constraints consistent with belief updating, starting from shared <strong>prior beliefs</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Belief updating model fits classification well</li>
+</ul></li>
+<li><span class="fragment highlight-red">Are these inferred prior beliefs ‘rational’ in that they reflect <strong>cross-talker variation</strong>?</span></li>
+</ol>
+</section><section id="inferred-prior-beliefs" class="slide level2">
+<h1>Inferred prior beliefs</h1>
+<p><img src="slides_files/figure-revealjs/inferred-prior-vs-kronrod-1.png" width="100%" /></p>
+<p><span class="cite">[Wedel, <em>in prep</em>]</span></p>
+</section><section id="inferred-prior-beliefs-1" class="slide level2">
+<h1>Inferred prior beliefs</h1>
+<p><img src="slides_files/figure-revealjs/inferred-prior-vs-goldrick-2-1.png" width="100%" /></p>
+<p><span class="cite">[Wedel, <em>in prep</em>]</span></p>
+</section><section id="inferred-prior-beliefs-2" class="slide level2">
+<h1>Inferred prior beliefs</h1>
+<p><img src="slides_files/figure-revealjs/inferred-prior-vs-goldrick-3-1.png" width="100%" /></p>
+<p><span class="cite">[Wedel, <em>in prep</em>; Goldrick, Vaughn, &amp; Murphy, 2013]</span></p>
+</section><section id="questions-4" class="slide level2">
+<h1>Questions</h1>
+<ol type="1">
+<li><span class="yes">Is rapid adaptation to an unfamiliar talker <strong>constrained</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Less adaptation to extreme accents</li>
+</ul></li>
+<li><span class="yes">Are constraints consistent with belief updating, starting from shared <strong>prior beliefs</strong>?</span>
+<ul>
+<li><strong>Yes</strong>: Belief updating model fits classification well</li>
+</ul></li>
+<li><span class="yes">Are these inferred prior beliefs ‘rational’ in that they reflect <strong>cross-talker variation</strong>?</span>
+<ul>
+<li><strong>Yes</strong>(-ish): Prevoicing potentially explains low expected /b/ VOT</li>
+</ul></li>
+</ol>
+</section></section>
+<section><section id="conclusion" class="titleslide slide level1"><h1>Conclusion</h1></section><section id="distributional-learning-is-constrained" class="slide level2">
+<h1>Distributional learning is <strong>constrained</strong></h1>
+</section><section class="slide level2">
+
+<ul>
+<li>Things that can’t be the <strong>whole story</strong> to coping with talker variation:
+<ul>
+<li>Rapid adaptation</li>
+<li>Fine-grained episodic memory</li>
+<li>Normalization</li>
+</ul></li>
+</ul>
+<!-- * Results are consistent with predictions of __ideal adapter__ framework -->
+<!-- * Efficient belief updating requires informative prior starting point -->
+<!-- * Experience with other talkers can provide this prior -->
+</section><section id="there-are-other-possible-sources-of-constraints" class="slide level2">
+<h1>There are other possible sources of constraints!</h1>
+<ul>
+<li>Psychoacoustics</li>
+<li>Own production processes</li>
+<li>etc.</li>
+</ul>
+</section><section id="the-ideal-adapter" class="slide level2">
+<h1>The ideal adapter</h1>
+<ul>
+<li>Provides a theory for <strong>why</strong> and <strong>how</strong> the statistics of prior experience guide (and constrain) adaptation</li>
+<li>…and supports extraction of <strong>social information</strong> from the speech signal</li>
+</ul>
+</section><section id="other-contrasts-and-groups" class="slide level2">
+<h1>Other contrasts and groups</h1>
+<ul>
+<li class="fragment">Ideal adapter predictions depend on <strong>type</strong> and <strong>amount</strong> of cross-talker variability.
+<ul>
+<li class="fragment">(relatively) <strong>weaker constraints</strong> for more variable contrasts (e.g., fricatives and vowels)</li>
+<li class="fragment">(relatively) <strong>stronger constraints</strong> for more specific groups (e.g., gender and dialect)</li>
+</ul></li>
+</ul>
+</section><section id="mind-reading" class="slide level2">
+<h1>Mind reading</h1>
+<ul>
+<li>Probing listeners’ subjective expectations is <strong>hard</strong>.</li>
+<li>Adaptation + belief updating models provide a missing <strong>tool</strong>.</li>
+<li>Doesn’t require <strong>production</strong> data.</li>
+</ul>
+</section><section id="findings" class="slide level2">
+<h1>Findings</h1>
+<ol type="1">
+<li class="fragment">Rapid adaptation via distributional learning is <strong>constrained</strong></li>
+<li class="fragment">Proof of concept: recover listeners <strong>prior beliefs</strong> about unfamiliar talkers</li>
+<li class="fragment">Provides a new tool that links (sociolinguistic) variation in <strong>production</strong> with listeners’ <strong>perception</strong> expectations</li>
+</ol>
+</section></section>
+<section><section id="extra-slides" class="titleslide slide level1"><h1>Extra slides</h1></section><section id="does-anyone-actually-prevoice" class="slide level2">
+<h1>Does anyone actually prevoice</h1>
+<p><img src="imgs/lead-lag-voiced.jpg" /></p>
+<p><span class="cite">[Dmitrieva et al., 2015, <a href="doi:10.1016/j.wocn.2014.12.005" class="uri">doi:10.1016/j.wocn.2014.12.005</a>]</span></p>
+</section><section id="belief-updating-1" class="slide level2">
+<h1>Belief updating</h1>
+</section><section class="slide level2">
+
+<p><img src="slides_files/figure-revealjs/lhood-fcn-update-animation-.gif" alt="lhood-fcn-update-animation"  width="49%" /> <img src="slides_files/figure-revealjs/class-fcn-update-animation-.gif" alt="class-fcn-update-animation"  width="49%" /></p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="slides_files/reveal.js-3.2.0/lib/js/head.min.js"></script>
+  <script src="slides_files/reveal.js-3.2.0/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+                                    { src: 'slides_files/reveal.js-3.2.0/plugin/notes/notes.js', async: true }
+                    ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
