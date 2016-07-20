@@ -556,7 +556,7 @@ true_particle <- list(mu = c(0, 60),
 ##                                    sigma0 = c(15, 25),
 ##                                    sigma_sigma = c(3, 5))
 
-okay_particles <- readRDS('../svalp_2016/okay_particles.rds')
+okay_particles <- readRDS('okay_particles.rds')
 
 okay_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at## , 
@@ -609,7 +609,7 @@ An __ideal adpater__ rapidly adapts to an unfamiliar talker via __distributional
 
 ## belief updating animation
 ## x <- sample_from_particle(30, true_particle)
-x <- readRDS('../svalp_2016/x.rds')
+x <- readRDS('x.rds')
 t_to_plot_at <- 1:30
 
 okay_updating <- okay_particles %>%
@@ -658,7 +658,7 @@ Distributional learning needs to __start__ somewhere
 ##                                    sigma0 = c(20, 20),
 ##                                    sigma_sigma = c(5, 5))
 
-flat_particles <- readRDS('../svalp_2016/flat_particles.rds')
+flat_particles <- readRDS('flat_particles.rds')
 
 flat_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at, 
@@ -676,7 +676,7 @@ flat_particles %>%
 ##                                   sigma0 = c(10, 22),
 ##                                   sigma_sigma = c(5, 5))
 
-mis_particles <- readRDS('../svalp_2016/mis_particles.rds')
+mis_particles <- readRDS('mis_particles.rds')
 
 mis_particles %>%
   plot_particles_lhood(x_to_plot_at = x_to_plot_at, 
@@ -1178,11 +1178,38 @@ Now: given __adaptation__ (change in classification) to different __exposure dis
 
 ---
 
+```{r run-model, eval=FALSE}
 
+## run the belief-updating model for inferring prior. the model source is in
+## the beliefupdatr package, or will be soon :)
+##
+## devtools::install_github('kleinschmidt/beliefupdatr')
+
+data_stan_conj <- data %>%
+  supunsup::supunsup_to_stan_conj()
+  
+library(rstan)
+mod_lapsing <- stan(file.path(devtools::inst('beliefupdatr'),
+                              'exec', 'conj_id_lapsing_fit.stan'))
+
+fit_lapsing <- stan(fit = mod_lapsing,
+                    data = data_stan_conj,
+                    chains = 4,
+                    iter = 1000)
+
+head(summary(fit_lapsing)$summary, n=10)
+
+mod_summary <- summary(fit_lapsing)$summary
+mod_samples <- rstan::extract(fit_lapsing)
+
+saveRDS(mod_samples, file='models/samples_lapsing.rds')
+saveRDS(mod_summary, file='models/summary_lapsing.rds')
+
+```
 
 ```{r load-samples}
 
-mod_samples <- readRDS('../nips_2015/data/samples_lapsing.rds')
+mod_samples <- readRDS('models/samples_lapsing.rds')
 
 ```
 
