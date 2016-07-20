@@ -924,6 +924,8 @@ print(p)
 ```
 </span>
 
+<span class="cite">[Clayards et al., 2008]</span>
+
 ## Design
 
 ```{r distributions, fig.width=8, fig.height=2, out.width='100%'}
